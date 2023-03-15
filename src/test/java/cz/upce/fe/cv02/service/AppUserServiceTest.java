@@ -7,6 +7,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import javax.transaction.Transactional;
+
 import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 class AppUserServiceTest {
@@ -19,8 +22,6 @@ class AppUserServiceTest {
 
     @BeforeEach
     void setUp() {
-       appUserRepository.save(Example.EXISTTING);
-
     }
 
     @AfterEach
@@ -29,10 +30,11 @@ class AppUserServiceTest {
     }
 
     @Test
+    @Transactional
     void findById() throws ResourceNotFoundException {
-        var expected = Example.EXISTTING;
+        var expected = appUserRepository.save(Example.EXISTTING);
 
-        var actual = appUserService.findById(100L);
+        var actual = appUserService.findById(expected.getId());
 
         assertEquals(expected,actual);
     }
