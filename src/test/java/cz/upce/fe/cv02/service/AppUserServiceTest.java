@@ -1,5 +1,6 @@
 package cz.upce.fe.cv02.service;
 
+import cz.upce.fe.cv02.Example;
 import cz.upce.fe.cv02.domain.AppUser;
 import cz.upce.fe.cv02.repository.AppUserRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,18 +23,16 @@ class AppUserServiceTest {
     @MockBean
     private AppUserRepository appUserRepository;
 
-    private static AppUser EXISTTING = new AppUser(
-            100L,"test","1234",true, LocalDateTime.now(),LocalDateTime.now());
 
     @BeforeEach
     void setUp() {
         Mockito.when(appUserRepository.findById(100L))
-                .thenReturn(Optional.of(EXISTTING));
+                .thenReturn(Optional.of(Example.EXISTTING));
 
     }
     @Test
     void findById() throws ResourceNotFoundException {
-        var expected = EXISTTING;
+        var expected = Example.EXISTTING;
 
         var actual = appUserService.findById(100L);
 
